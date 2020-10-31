@@ -22,33 +22,15 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         with(viewModel) {
-            title.observe(this@MainActivity, Observer {
-                titleTextView.text = resources.getString(it)
-                Log.d(TAG, "Title updated to: $it")
-            })
-            subTitle.observe(this@MainActivity, Observer {
-                subTitleTextView.text = resources.getString(it)
-                Log.d(TAG, "Sub Title updated to: $it")
-            })
-            description.observe(this@MainActivity, Observer {
-                descriptionTextView.text = resources.getString(it)
-                Log.d(TAG, "Description updated to: $it")
-            })
-            progressBar.observe(this@MainActivity, Observer {
-                seekBar.progress = it
-                Log.d(TAG, "Seek bar progress updated to: $it")
-            })
-            checkbox.observe(this@MainActivity, Observer {
-                checkBox.isChecked = it
-                Log.d(TAG, "Check box updated to: $it")
-            })
-            switch.observe(this@MainActivity, Observer {
-                switchWidget.isChecked = it
-                Log.d(TAG, "Switch updated to: $it")
-            })
-            showProgressBar.observe(this@MainActivity, Observer {
-                progressBarWidget.visibility = it
-                Log.d(TAG, "Progress bar visibility updated to: $it")
+            state.observe(this@MainActivity, Observer {
+                Log.d(TAG, "State updated to: $it")
+                titleTextView.text = resources.getString(it.title)
+                subTitleTextView.text = resources.getString(it.subTitle)
+                descriptionTextView.text = resources.getString(it.description)
+                seekBar.progress = it.progressBar
+                checkBox.isChecked = it.checkBox
+                switchWidget.isChecked = it.switch
+                progressBarWidget.visibility = it.showProgress
             })
         }
 
