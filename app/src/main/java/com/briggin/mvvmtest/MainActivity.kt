@@ -9,64 +9,70 @@ import kotlinx.android.synthetic.main.main_activity.*
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainPresenter.View {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        presenter = MainPresenter()
     }
 
     override fun onStart() {
         super.onStart()
-        with(viewModel) {
-            title.observe(this@MainActivity, Observer {
-                titleTextView.text = resources.getString(it)
-                Log.d(TAG, "Title updated to: $it")
-            })
-            subTitle.observe(this@MainActivity, Observer {
-                subTitleTextView.text = resources.getString(it)
-                Log.d(TAG, "Sub Title updated to: $it")
-            })
-            description.observe(this@MainActivity, Observer {
-                descriptionTextView.text = resources.getString(it)
-                Log.d(TAG, "Description updated to: $it")
-            })
-            progressBar.observe(this@MainActivity, Observer {
-                seekBar.progress = it
-                Log.d(TAG, "Seek bar progress updated to: $it")
-            })
-            checkbox.observe(this@MainActivity, Observer {
-                checkBox.isChecked = it
-                Log.d(TAG, "Check box updated to: $it")
-            })
-            switch.observe(this@MainActivity, Observer {
-                switchWidget.isChecked = it
-                Log.d(TAG, "Switch updated to: $it")
-            })
-            showProgressBar.observe(this@MainActivity, Observer {
-                progressBarWidget.visibility = it
-                Log.d(TAG, "Progress bar visibility updated to: $it")
-            })
-        }
+        presenter.bind(this)
 
         button.setOnClickListener {
-            viewModel.setStateOne()
+            presenter.setStateOne()
             Log.i(TAG, "State One being set")
         }
         button2.setOnClickListener {
-            viewModel.setStateTwo()
+            presenter.setStateTwo()
             Log.i(TAG, "State Two being set")
         }
         button3.setOnClickListener {
-            viewModel.setStateThree()
+            presenter.setStateThree()
             Log.i(TAG, "State Three being set")
         }
         button4.setOnClickListener {
-            viewModel.setStateFour()
+            presenter.setStateFour()
             Log.i(TAG, "State Four being set")
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.unbind()
+    }
+
+    override fun setTitle(titleResId: Int) {
+        titleTextView.text = resources.getString(titleResId)
+        Log.d(TAG, "Title updated to: $titleResId")
+    }
+
+    override fun setSubTitle(subTitleResId: Int) {
+        subTitleTextView.text = resources.getString(subTitleResId)
+        Log.d(TAG, "Sub Title updated to: $subTitleResId")
+    }
+
+    override fun setDescription(descriptionResId: Int) {
+        descriptionTextView.text = resources.getString(descriptionResId)
+        Log.d(TAG, "Description updated to: $descriptionResId")
+    }
+
+    override fun setSwitch(isSwitched: Boolean) {
+        switchWidget.isChecked = isSwitched
+        Log.d(TAG, "Switch updated to: $isSwitched")
+    }
+
+    override fun setCheckBox(isChecked: Boolean) {
+        checkBox.isChecked = isChecked
+        Log.d(TAG, "Check box updated to: $isChecked")
+    }
+
+    override fun displayLoader(visibility: Int) {
+        progressBarWidget.visibility = visibility
+        Log.d(TAG, "Progress bar visibility updated to: $visibility")
     }
 }
