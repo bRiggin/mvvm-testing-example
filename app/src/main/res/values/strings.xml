@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MvvmTest</string>
+
+    <string name="state_one_title">State 1</string>
+    <string name="state_two_title">State 2</string>
+    <string name="state_three_title">State 3</string>
+    <string name="state_four_title">State 4</string>
+
+    <string name="sub_title_one">This sub title is relevant to state 1 and 3</string>
+    <string name="sub_title_two">This sub title is relevant to state 2 and 4</string>
+
+    <string name="description">This string doesn\'t change ;)</string>
+</resources>
